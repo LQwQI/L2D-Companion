@@ -52,8 +52,9 @@
 
 | 文件 | 说明 |
 | --- | --- |
-| `L2D Companion-x.y.z-安装程序.exe` | NSIS 安装版，可自选安装目录，建桌面和开始菜单快捷方式 |
-| `L2D Companion-x.y.z-便携版.exe` | 便携版，双击即用，不写注册表 |
+| `L2D-Companion-x.y.z-setup.exe` | NSIS 安装版，可自选安装目录，建桌面和开始菜单快捷方式 |
+| `L2D-Companion-x.y.z-portable.exe` | 便携版，双击即用，不写注册表 |
+| `SHA256SUMS.txt` | 上面两个文件的 SHA256 |
 
 系统要求：Windows 10 / 11 x64。
 

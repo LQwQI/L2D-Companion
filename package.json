@@ -47,10 +47,10 @@
         }
       ],
       "icon": "build/icon.ico",
-      "artifactName": "L2D Companion-${version}.exe"
+      "artifactName": "L2D-Companion-${version}.exe"
     },
     "portable": {
-      "artifactName": "L2D Companion-${version}.exe",
+      "artifactName": "L2D-Companion-${version}-portable.exe",
       "unpackDirName": "L2DCompanion"
     },
     "nsis": {
@@ -60,7 +60,7 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "L2D Companion",
-      "artifactName": "L2D Companion-${version}-安装程序.exe"
+      "artifactName": "L2D-Companion-${version}-setup.exe"
     }
   }
 }
