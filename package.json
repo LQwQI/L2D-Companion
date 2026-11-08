@@ -1,7 +1,7 @@
 {
   "name": "l2d-companion",
   "productName": "L2D Companion",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "L2D Companion - Live2D desktop pet launcher",
   "author": "L2D Companion",
   "private": true,

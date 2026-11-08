@@ -159,7 +159,9 @@ function lowerPetOneLevel() {
   if (!petWin || petWin.isDestroyed()) return;
   petLowered = true;
   try { petWin.setAlwaysOnTop(false); } catch (_) {}
-  try { petWin.setFocusable(false); } catch (_) {}
+  // Keep the window focusable: if it is lowered but not covered, clicking
+  // the model should still trigger interaction / let the user drag it back.
+  try { petWin.setFocusable(true); } catch (_) {}
   try {
     const buf = petWin.getNativeWindowHandle();
     const hwnd = buf.length >= 8 ? Number(buf.readBigUInt64LE(0)) : buf.readUInt32LE(0);
@@ -167,6 +169,10 @@ function lowerPetOneLevel() {
   } catch (e) {
     console.error('[lower] failed', e);
   }
+  try { showBubble('桌宠已下沉一层，按 Ctrl+Alt+T 或托盘菜单提回', { durationMs: 4200 }); } catch (_) {}
+  try {
+    if (tray && tray.displayBalloon) tray.displayBalloon({ title: 'L2D Companion', content: '桌宠已下沉到下层，按 Ctrl+Alt+T 或托盘菜单可提回' });
+  } catch (_) {}
   broadcastState();
 }
 function bringPetToTop() {
