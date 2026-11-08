@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'"
+  />
+  <title>bubble</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+      font-family: 'Microsoft YaHei', 'Segoe UI', system-ui, sans-serif;
+    }
+    body {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    #bubble {
+      position: relative;
+      display: inline-block;
+      max-width: 262px;
+      box-sizing: border-box;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.97);
+      border: 1px solid #d8e3ff;
+      color: #22304a;
+      font-size: 13.5px;
+      line-height: 1.55;
+      word-break: break-word;
+      white-space: normal;
+    }
+    #bubble::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.97);
+      border-right: 1px solid #d8e3ff;
+      border-bottom: 1px solid #d8e3ff;
+      transform: rotate(45deg);
+    }
+    #bubble[data-tail='bottom']::after {
+      left: calc(50% - 6px);
+      bottom: -7px;
+    }
+    #bubble[data-tail='left']::after {
+      left: -7px;
+      top: 50%;
+      margin-top: -6px;
+      transform: rotate(135deg);
+    }
+    #bubble[data-tail='right']::after {
+      right: -7px;
+      top: 50%;
+      margin-top: -6px;
+      transform: rotate(-45deg);
+    }
+    body.adjustable #bubble {
+      -webkit-app-region: drag;
+      cursor: move;
+      outline: 2px dashed rgba(110, 140, 255, 0.85);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div id="bubble" data-tail="bottom"></div>
+  <script src="bubble.js"></script>
+</body>
+</html>

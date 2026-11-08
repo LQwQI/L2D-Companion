@@ -1,0 +1,26 @@
+# 依赖与构建产物（不提交）
+node_modules/
+dist/
+electron-dist/
+out/
+
+# Live2D Cubism Core 是 Live2D 公司的专有运行时，不随仓库分发
+# 首次运行请自行下载后放到 app/core/ 下（见 app/core/README.md）
+app/core/live2dcubismcore.min.js
+
+# 本地配置 / 日志 / 备份
+*.log
+*.bak
+*.bak-*
+.env
+.env.*
+state/
+logs/
+
+# 编辑器 / 系统
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: pet:; connect-src 'self' pet: data:; worker-src 'none'; object-src 'none'"
+  />
+  <title>L2D Companion · 参数面板</title>
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body>
+  <header id="titlebar">
+    <div class="titlebar-left">
+      <span class="dot"></span>
+      <div>
+        <div class="title">L2D Companion</div>
+        <div class="subtitle" id="subtitle">参数面板 · Cubism 5 风格</div>
+      </div>
+    </div>
+    <div class="titlebar-actions">
+      <button id="btn-minimize" title="最小化">–</button>
+      <button id="btn-close" title="关闭">×</button>
+    </div>
+  </header>
+
+  <nav id="tabs">
+    <button data-tab="params" class="active">参数</button>
+    <button data-tab="models">模型</button>
+    <button data-tab="ai">AI</button>
+        <button data-tab="interaction">互动</button>
+    <button data-tab="expressions">表情</button>
+    <button data-tab="motions">动作</button>
+    <button data-tab="settings">设置</button>
+  </nav>
+
+  <main>
+    <section id="tab-params" class="tab active">
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="搜索参数名 / ID…" autocomplete="off" />
+        <button id="btn-reset-all" class="ghost" title="清除所有参数覆盖">重置全部</button>
+        <button id="btn-view-reset" class="ghost" title="重新适配窗口大小">重置视图</button>
+      </div>
+      <div class="hint" id="params-hint"></div>
+      <div id="param-list" class="param-list"></div>
+    </section>
+
+    <section id="tab-models" class="tab">
+      <div class="hint" id="models-empty" hidden>还没有导入模型，点下面的「导入模型文件夹」开始吧。</div>
+
+      <div class="model-card" id="model-current-card" hidden>
+        <div class="model-card-head">
+          <div class="model-card-title" id="cm-name">—</div>
+          <span class="model-badge">当前模型</span>
+        </div>
+        <div class="model-path" id="cm-path">—</div>
+        <div class="model-stats" id="cm-stats"></div>
+        <div class="model-warnings" id="cm-warnings" hidden></div>
+        <div class="model-actions">
+          <button id="btn-model-open" class="ghost">打开模型文件夹</button>
+          <button id="btn-model-remove" class="danger">移除当前模型</button>
+        </div>
+      </div>
+
+      <div class="model-fit" id="model-fit" hidden>
+        <div class="setting">
+          <div class="setting-head"><span>左右反转</span><span class="setting-desc">水平镜像模型</span></div>
+          <label class="switch"><input id="model-flipx" type="checkbox" /><span></span></label>
+        </div>
+        <div class="setting-col">
+          <div class="setting-head"><span>缩放（窗口同步）</span><span id="val-model-scale" class="setting-value">1.00</span></div>
+          <input id="model-scale" type="range" min="0.7" max="1.3" step="0.01" value="1" />
+        </div>
+        <div class="setting-col">
+          <div class="setting-head"><span>上下偏移</span><span id="val-model-offset-y" class="setting-value">0.00</span></div>
+          <input id="model-offset-y" type="range" min="-0.3" max="0.3" step="0.01" value="0" />
+        </div>
+        <div class="size-presets"><button id="btn-model-view-reset">重置视图</button></div>
+      </div>
+
+      <div class="toolbar model-toolbar">
+        <button id="btn-import-model-folder" class="ghost">导入模型文件夹…</button>
+        <button id="btn-import-model-file" class="ghost">手动选择模型文件…</button>
+        <button id="btn-rescan-models" class="ghost">重新扫描</button>
+      </div>
+      <div class="hint" id="model-status" hidden></div>
+
+      <div id="model-list" class="model-list"></div>
+    </section>
+
+    <section id="tab-ai" class="tab">
+      <div class="surf-card" id="surf-card">
+        <div class="surf-head">
+          <div class="surf-role" id="surf-role">SurfCore</div>
+          <span class="surf-badge" id="surf-conn">检测中…</span>
+        </div>
+        <div class="surf-meta" id="surf-model">模型：—</div>
+        <div class="surf-meta" id="surf-carrier">主动搭话：—</div>
+        <div class="surf-meta" id="surf-presence">在线状态：—</div>
+        <div class="surf-error" id="surf-error" hidden></div>
+        <div class="surf-actions">
+          <button id="btn-surf-refresh" class="ghost">刷新状态</button>
+          <button id="btn-surf-test" class="ghost">测试说一句</button>
+          <button id="btn-surf-settings" class="ghost">打开 SurfCore 设置</button>
+        </div>
+        <div class="hint" id="surf-status" hidden></div>
+      </div>
+
+      <div class="surf-settings">
+        <div class="setting">
+          <div class="setting-head"><span>启用 SurfCore</span><span class="setting-desc">连接本地 SurfCore，用角色身份对话</span></div>
+          <label class="switch"><input id="surf-enabled" type="checkbox" /><span></span></label>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><span>自动说话</span><span class="setting-desc">按间隔主动弹气泡，不需要你开口</span></div>
+          <label class="switch"><input id="surf-autotalk" type="checkbox" /><span></span></label>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><span>自动说话间隔</span><span class="setting-desc">两次主动气泡之间的最小间隔</span></div>
+          <select id="surf-interval" class="surf-select">
+            <option value="10">10 分钟</option>
+            <option value="20">20 分钟</option>
+            <option value="30">30 分钟</option>
+            <option value="60">60 分钟</option>
+            <option value="120">120 分钟</option>
+          </select>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><span>开机自启</span><span class="setting-desc">登录系统后自动运行桌宠</span></div>
+          <label class="switch"><input id="surf-autostart" type="checkbox" /><span></span></label>
+        </div>
+      </div>
+
+      <div class="surf-chat" id="surf-chat">
+        <div class="surf-chat-head">对话</div>
+        <div class="surf-chat-log" id="surf-chat-log"></div>
+        <div class="surf-chat-row">
+          <input id="surf-chat-input" type="text" placeholder="和角色说点什么…" autocomplete="off" maxlength="500" />
+          <button id="btn-surf-send" class="ghost">发送</button>
+        </div>
+        <div class="hint" id="surf-chat-hint">只在本地显示，不会保存聊天记录。</div>
+      </div>
+
+      <div class="surf-token-card">
+        <div class="setting-head"><span>本地 API</span><span class="setting-desc">外部程序可通过 HTTP 让角色说话</span></div>
+        <div class="surf-api-row">
+          <span class="surf-api-label">地址</span>
+          <input id="surf-api-url" class="surf-text" type="text" readonly placeholder="—" />
+        </div>
+        <div class="surf-api-row">
+          <span class="surf-api-label">Token</span>
+          <input id="surf-token" class="surf-text" type="password" readonly value="" placeholder="点击「显示」获取" />
+          <button id="btn-surf-token-toggle" class="ghost">显示</button>
+          <button id="btn-surf-token-copy" class="ghost">复制</button>
+          <button id="btn-surf-token-regen" class="ghost">重新生成</button>
+        </div>
+        <div class="hint" id="surf-api-state"></div>
+        <div class="hint" id="surf-token-note">外部调用需要 x-pet-token 请求头；连续失败会临时锁定。</div>
+        <div class="hint" id="surf-token-lock" hidden></div>
+        <div class="hint" id="surf-api-status" hidden></div>
+      </div>
+    </section>
+
+    <section id="tab-interaction" class="tab">
+      <div class="hint">自定义气泡台词、触碰位置和触碰表情；双击气泡可以打开 AI 对话（走 SurfCore 人格）。</div>
+      <div class="ix-card">
+        <div class="ix-title">区域台词（留空用默认台词，每行一条）</div>
+        <div id="ix-region-texts"></div>
+      </div>
+      <div class="ix-card">
+        <div class="ix-title">区域触碰表情（匹配不到对应表情时不切换）</div>
+        <div id="ix-region-expressions"></div>
+      </div>
+      <div class="ix-card">
+        <div class="ix-title">自定义触碰点（坐标为窗口百分比）</div>
+        <div id="ix-zones"></div>
+        <div class="row-actions"><button id="ix-add-zone" class="ghost">+ 添加触碰点</button><button id="ix-pick-coords" class="ghost">点击角色抓取坐标</button></div>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span>触碰后调用 AI 生成反应</span><span class="setting-desc">需要 SurfCore 在线；会覆盖自定义台词</span></div>
+        <label class="switch"><input id="ix-touch-api" type="checkbox" /><span></span></label>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span>表情自动关闭</span><span class="setting-desc">互动后多少秒关闭表情（0 = 不关闭）</span></div>
+        <input id="ix-expr-reset" class="ix-number" type="number" min="0" max="3600" step="5" value="60" />
+      </div>
+      <div class="row-actions"><button id="ix-save" class="primary">保存互动设置</button></div>
+      <div class="hint" id="ix-status"></div>
+    </section>
+
+    <section id="tab-expressions" class="tab">
+      <div class="hint">点击表情立即应用；「关闭表情」回到默认。</div>
+      <div id="expression-list" class="chip-list"></div>
+      <div class="row-actions"><button id="btn-reset-expression" class="ghost">关闭表情</button></div>
+    </section>
+
+    <section id="tab-motions" class="tab">
+      <div class="hint">动作播放完会自动回到待机；也可以随时强制回到待机。</div>
+      <div class="motion-toolbar"><button id="btn-back-idle" class="ghost">↺ 回到待机</button></div>
+      <div id="motion-list" class="motion-list"></div>
+    </section>
+
+    <section id="tab-settings" class="tab">
+      <div class="setting">
+        <div class="setting-head"><span>固定模型</span><span class="setting-desc">锁定位置并让鼠标穿透</span></div>
+        <label class="switch"><input id="opt-pinned" type="checkbox" /><span></span></label>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span>固定位置（鼠标不穿透）</span><span class="setting-desc">锁定位置，但鼠标仍可点击角色/气泡</span></div>
+        <label class="switch"><input id="opt-locked" type="checkbox" /><span></span></label>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span>透明区拖动</span><span class="setting-desc">只在角色之外的透明区拖动窗口；点角色只触发互动、不移动</span></div>
+        <label class="switch"><input id="opt-drag-transparent" type="checkbox" /><span></span></label>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span>双击透明区下沉一层</span><span class="setting-desc">让被桌宠盖住的窗口露出来；托盘点图标可提回最上层</span></div>
+        <label class="switch"><input id="opt-dblclick-lower" type="checkbox" /><span></span></label>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span>始终置顶</span><span class="setting-desc">保持在其它窗口上方</span></div>
+        <label class="switch"><input id="opt-ontop" type="checkbox" /><span></span></label>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span>跟随鼠标</span><span class="setting-desc">视线与头部、身体跟随指针</span></div>
+        <label class="switch"><input id="opt-follow" type="checkbox" /><span></span></label>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span>手臂轻摆</span><span class="setting-desc">手臂随呼吸轻微晃动</span></div>
+        <label class="switch"><input id="opt-armsway" type="checkbox" /><span></span></label>
+      </div>
+      <div class="setting-col">
+        <div class="setting-head"><span>跟随强度</span><span id="val-strength" class="setting-value">100%</span></div>
+        <input id="opt-strength" type="range" min="0" max="1.5" step="0.05" />
+      </div>
+      <div class="setting-col">
+        <div class="setting-head"><span>窗口不透明度</span><span id="val-opacity" class="setting-value">100%</span></div>
+        <input id="opt-opacity" type="range" min="0.2" max="1" step="0.02" />
+      </div>
+      <div class="setting-col">
+        <div class="setting-head"><span>桌宠大小</span><span id="val-size" class="setting-value">480 × 820</span></div>
+        <input id="opt-size" type="range" min="360" max="1500" step="10" />
+        <div class="size-presets">
+          <button data-size="360,620">小</button>
+          <button data-size="480,820">中</button>
+          <button data-size="600,1030">大</button>
+          <button data-size="760,1300">超大</button>
+        </div>
+      </div>
+      <div class="setting-col">
+        <div class="setting-head"><span>窗口位置</span></div>
+        <div class="size-presets"><button id="btn-recenter">回到屏幕右下角</button></div>
+      </div>
+      <div class="setting-col">
+        <div class="setting-head"><span>位置记忆点</span><span class="setting-desc">保存当前位置和大小，下次一键跳回</span></div>
+        <div id="memory-slots"></div>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span>聊天气泡</span><span class="setting-desc">点击角色不同部位会弹出不同的话</span></div>
+        <label class="switch"><input id="opt-bubble" type="checkbox" /><span></span></label>
+      </div>
+      <div class="setting-col">
+        <div class="setting-head"><span>气泡位置</span><span class="setting-desc">默认在角色头顶，可拖动调整</span></div>
+        <div class="size-presets">
+          <button id="btn-bubble-adjust">调整气泡位置</button>
+          <button id="btn-bubble-reset">恢复默认位置</button>
+        </div>
+      </div>
+      <div class="about" id="about"></div>
+      <div class="row-actions">
+        <button id="btn-quit" class="danger">退出桌宠</button>
+      </div>
+    </section>
+  </main>
+  <script src="panel.js"></script>
+</body>
+</html>

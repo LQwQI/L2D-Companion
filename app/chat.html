@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>L2D Companion · 聊天</title>
+<style>
+  html, body { margin: 0; width: 100%; height: 100%; background: transparent; overflow: hidden; }
+  body { padding: 7px; box-sizing: border-box; font-family: 'Microsoft YaHei', sans-serif; user-select: none; }
+  #card {
+    width: 100%; height: 100%; box-sizing: border-box;
+    display: flex; flex-direction: column;
+    background: #fff; border: 1px solid #d8e3ff; border-radius: 18px;
+    overflow: hidden; color: #27324a;
+  }
+  #head {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 14px 10px; border-bottom: 1px solid #e8eefc;
+    -webkit-app-region: drag;
+  }
+  #dot { width: 8px; height: 8px; border-radius: 50%; background: #5c7cfa; flex: 0 0 auto; }
+  #title { font-size: 13px; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #qq { font-size: 10px; color: #8b96ad; white-space: nowrap; -webkit-app-region: no-drag; }
+  #close {
+    -webkit-app-region: no-drag; border: 0; background: #f0f4ff; color: #5d6b8a;
+    width: 24px; height: 24px; border-radius: 8px; cursor: pointer; font-size: 15px; line-height: 1;
+  }
+  #msgs { flex: 1; overflow: auto; padding: 10px 12px; background: #f7f9ff; }
+  #msgs::-webkit-scrollbar { width: 8px; }
+  #msgs::-webkit-scrollbar-thumb { background: #d8e3ff; border-radius: 8px; }
+  .msg { display: flex; margin: 6px 0; }
+  .msg .bubble {
+    max-width: 82%; padding: 8px 11px; border-radius: 13px; font-size: 12.5px;
+    line-height: 1.55; word-break: break-word; white-space: pre-wrap;
+  }
+  .msg.role { justify-content: flex-start; }
+  .msg.role .bubble { background: #fff; border: 1px solid #e1e9fb; border-top-left-radius: 4px; }
+  .msg.user { justify-content: flex-end; }
+  .msg.user .bubble { background: #4d6fd4; color: #fff; border-top-right-radius: 4px; }
+  .msg.sys { justify-content: center; }
+  .msg.sys .bubble { background: transparent; color: #96a1b8; font-size: 11px; padding: 2px 6px; max-width: 100%; }
+  #composer { display: flex; gap: 8px; padding: 9px 12px; border-top: 1px solid #e8eefc; background: #fff; }
+  #input {
+    flex: 1; height: 38px; max-height: 90px; resize: none; box-sizing: border-box;
+    border: 1px solid #d8e3ff; border-radius: 11px; padding: 9px 10px;
+    font: 12.5px 'Microsoft YaHei', sans-serif; color: #27324a; outline: none;
+    -webkit-app-region: no-drag;
+  }
+  #input:focus { border-color: #5c7cfa; }
+  #send {
+    width: 58px; border: 0; border-radius: 11px; background: #4d6fd4; color: #fff;
+    font: 12.5px 'Microsoft YaHei', sans-serif; cursor: pointer; -webkit-app-region: no-drag;
+  }
+  #send:disabled { opacity: .55; cursor: default; }
+  #hint { padding: 0 12px 8px; font-size: 10px; color: #98a2b8; background: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+</style>
+</head>
+<body>
+  <div id="card">
+    <div id="head">
+      <span id="dot"></span>
+      <span id="title">和角色聊天</span>
+      <span id="qq">QQ 私信同步中…</span>
+      <button id="close" title="关闭">×</button>
+    </div>
+    <div id="msgs"></div>
+    <div id="composer">
+      <textarea id="input" rows="1" placeholder="和她说点什么…"></textarea>
+      <button id="send">发送</button>
+    </div>
+    <div id="hint">对话走 SurfCore 人格；发完会同步到 QQ 私信</div>
+  </div>
+  <script src="chat.js"></script>
+</body>
+</html>

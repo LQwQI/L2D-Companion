@@ -1,0 +1,66 @@
+{
+  "name": "l2d-companion",
+  "productName": "L2D Companion",
+  "version": "1.7.4",
+  "description": "L2D Companion - Live2D desktop pet launcher",
+  "author": "L2D Companion",
+  "private": true,
+  "main": "app/main.js",
+  "dependencies": {},
+  "devDependencies": {
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "com.deepseek.live2dpet",
+    "electronVersion": "45.2.3",
+    "electronDist": "electron-dist",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "app/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "app/core",
+        "to": "core"
+      }
+    ],
+    "asar": true,
+    "compression": "normal",
+    "npmRebuild": false,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "L2D Companion-${version}.exe"
+    },
+    "portable": {
+      "artifactName": "L2D Companion-${version}.exe",
+      "unpackDirName": "L2DCompanion"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "L2D Companion",
+      "artifactName": "L2D Companion-${version}-安装程序.exe"
+    }
+  }
+}
